@@ -67,12 +67,23 @@ func newHelper() *helper {
 		panic(err)
 	}
 
+	fmt.Println("--- What is the current temperature? ---")
+	input, err = reader.ReadString('\n')
+	input = strings.Replace(input, "\n", "", -1)
+	if err != nil {
+		panic(err)
+	}
+	temperature, err := strconv.ParseFloat(input, 64)
+	if err != nil {
+		panic(err)
+	}
+
 	return &helper{
 		beerAmount:       beerAmount,
 		gradPlato:        gradPlato,
 		desiredCo2:       desiredCo2,
 		beerGravity:      gravity,
-		requiredPressure: desiredCo2/(10*math.Pow(math.E, -10.73797+(2617.25/(20+273.15)))) - 1.013,
+		requiredPressure: desiredCo2/(10*math.Pow(math.E, -10.73797+(2617.25/(temperature+273.15)))) - 1.013,
 	}
 }
 
